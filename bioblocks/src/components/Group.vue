@@ -81,14 +81,8 @@
       </v-container>
     </div>
 
-    <v-snackbar color="green" v-model="alertEdit" :timeout="timeout">
-      {{ textEdit }}
-      <v-btn green flat></v-btn>
-    </v-snackbar>
-    <v-snackbar color="red" v-model="alertEditError" :timeout="timeout">
-      {{ textEditError }}
-      <v-btn red flat></v-btn>
-    </v-snackbar>
+    <v-snackbar color="green" v-model="alertEdit" :timeout="timeout">{{ textEdit }}</v-snackbar>
+    <v-snackbar color="red" v-model="alertEditError" :timeout="timeout">{{ textEditError }}</v-snackbar>
   </v-app>
 </template>
 

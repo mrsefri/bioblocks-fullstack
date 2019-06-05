@@ -22,7 +22,6 @@ deleteRoutes.post('/deleteproject', function (req, res, next) {
 
 deleteRoutes.post('/deletegroup', function (req, res, next) {
     var id_group = req.body.id_group;
-    console.log('wasaaa ' + req.body.id_group)
     db.query("DELETE FROM bioblocks.project_belongs_group WHERE id_group=?", [id_group], function (err, rows, fields) {
         if (err) throw err;
         db.query("DELETE FROM bioblocks.projects_group WHERE id_group=?", [id_group], function (err, rows, fields) {

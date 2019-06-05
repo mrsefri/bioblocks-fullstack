@@ -16,12 +16,12 @@
                     <v-layout align-center justify-center row>
                       <v-tab :to="'/newproject'" @click="dialog = false">
                         <div class="homeItem elevation-5" style="margin: 1%;">
-                          <h1 style="margin-top:30%; color:black;">Create project</h1>
+                          <h1 style="margin-left: auto; margin-right: auto; width:60%; margin-top:30%; color:black;">New project</h1>
                         </div>
                       </v-tab>
                       <v-tab v-if="!isStudent" :to="'/newgroup'" @click="dialog = false">
                         <div class="homeItem elevation-5" style="margin: 1%;">
-                          <h1 style="margin-top:30%; color:black;">Create group</h1>
+                          <h1 style="margin-left: auto; margin-right: auto; width:60%; margin-top:30%; color:black;">New group</h1>
                         </div>
                       </v-tab>
                     </v-layout>
@@ -34,7 +34,7 @@
       </div>
 
       <v-toolbar-title>
-        <v-list-tile :to="items[0].path">
+        <v-list-tile :to="'/profile'">
           <div class="white--text" style="font-size: 22px;">Bioblocks</div>
         </v-list-tile>
       </v-toolbar-title>
@@ -93,9 +93,7 @@
       </v-menu>
     </v-toolbar>
 
-    <v-content
-      transition="slide-x-transition"
-    >
+    <v-content transition="slide-x-transition">
       <router-view :key="$route.fullPath"></router-view>
     </v-content>
   </v-app>
@@ -114,7 +112,6 @@ export default {
       name: "",
       searchQuery: "",
       items: [
-        { title: "Profile", path: "/profile" },
         { title: "Projects", path: "/projects" },
         { title: "Groups", path: "/groups" }
       ],
@@ -125,7 +122,7 @@ export default {
   mounted() {
     apiService.isLoggedIn().then(result => {
       this.LoggedIn = result.data.success;
-      this.isStudent = result.data.type == 'student';
+      this.isStudent = result.data.type == "student";
       this.name = "@" + result.data.name;
     });
   },
@@ -259,16 +256,16 @@ color: #2c3e50;
   color: white;
   font-size: 5rem;
   line-height: 1.1;
-  max-width: 35%;
+  max-width: 666px;
   font-weight: 700;
-  margin-left: 25%;
+  margin: auto;
   text-align: left;
   padding-top: 30px;
   padding-bottom: 20px;
 }
 .landing-text-big {
-  max-width: 35%;
-  margin-left: 25%;
+  max-width: 666px;
+  margin: auto;
   display: block;
   text-align: left;
   padding-bottom: 20px;
@@ -279,7 +276,7 @@ color: #2c3e50;
   display: block;
   text-align: center;
   padding-bottom: 10px;
-  color:#192440;
+  color: #192440;
   font-size: 1.5rem;
 }
 /*Profile.vue*/
@@ -296,12 +293,14 @@ color: #2c3e50;
   height: 290px;
 }
 .homeItem {
-  height: 230px;
+  height: 210px;
   width: 250px;
   margin: 5%;
-  padding-bottom: 15px;
   text-align: center;
   background-color: white;
+}
+.v-tabs__item:not(.v-tabs__item--active):hover {
+  opacity: 1;
 }
 /*New project/group*/
 .newform {
@@ -333,7 +332,7 @@ color: #2c3e50;
 .layoutContainer {
   background: #dadada;
   height: 70%;
-
+  padding: 10px;
 }
 .layoutInfo {
   text-align: left;

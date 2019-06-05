@@ -57,7 +57,7 @@
                           color="green"
                           v-model="ruleForm1.id_user"
                           :counter="15"
-                          label="Id"
+                          label="Username"
                           required
                           style="margin-top:50%;"
                         ></v-text-field>

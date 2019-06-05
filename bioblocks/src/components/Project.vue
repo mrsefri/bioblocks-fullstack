@@ -37,18 +37,29 @@
       </el-form-item>
       <el-form-item v-if="!isEditing">
         <el-button class="successB" @click="isEditing = !isEditing" style="margin-right: 5%;">Edit</el-button>
-        <el-button class="danger" @click="deleting = !deleting" style="margin-left: 5%;">Delete project</el-button>
+        <el-button
+          class="danger"
+          @click="deleting = !deleting"
+          style="margin-left: 5%;"
+        >Delete project</el-button>
         <v-dialog v-model="deleting" width="350px">
-                    <v-card style="height:250px;">
-                      <h1 style="font-size: 16px; padding: 10%;">Are you sure? <br/> Once deleted, the project can't be restored</h1>
-                      <div>
-                      <el-button class="danger" @click="deleteProject()" style="margin-top: 5%;">Delete</el-button>
-                      </div>
-                    </v-card>
-                  </v-dialog>
+          <v-card style="height:250px;">
+            <h1 style="font-size: 16px; padding: 10%;">
+              Are you sure?
+              <br>Once deleted, the project can't be restored
+            </h1>
+            <div>
+              <el-button class="danger" @click="deleteProject()" style="margin-top: 5%;">Delete</el-button>
+            </div>
+          </v-card>
+        </v-dialog>
       </el-form-item>
       <el-form-item v-if="isEditing">
-        <el-button type="default" @click="isEditing = !isEditing; ruleForm1.project_name = dataProject.dataname; ruleForm1.public = dataProject.datapublic; ruleForm1.project_group = dataProject.dataproject_group;" style="margin-right: 5%;">Cancel</el-button>
+        <el-button
+          type="default"
+          @click="isEditing = !isEditing; ruleForm1.project_name = dataProject.dataname; ruleForm1.public = dataProject.datapublic; ruleForm1.project_group = dataProject.dataproject_group;"
+          style="margin-right: 5%;"
+        >Cancel</el-button>
         <el-button class="successB" @click="editProject('ruleForm1')" style="margin-left: 5%;">Save</el-button>
       </el-form-item>
     </el-form>
@@ -61,26 +72,11 @@
       :dataxml="this.dataProject.dataxml"
       :isOwner="this.dataProject.isOwner"
     />
-    <v-snackbar color="green" v-model="alert" :timeout="timeout">
-      {{ text }}
-      <v-btn green flat></v-btn>
-    </v-snackbar>
-    <v-snackbar color="green" v-model="alertAdd" :timeout="timeout">
-      {{ textAdd }}
-      <v-btn green flat></v-btn>
-    </v-snackbar>
-    <v-snackbar color="red" v-model="alertAddError" :timeout="timeout">
-      {{ textAddError }}
-      <v-btn red flat></v-btn>
-    </v-snackbar>
-    <v-snackbar color="green" v-model="alertEdit" :timeout="timeout">
-      {{ textEdit }}
-      <v-btn green flat></v-btn>
-    </v-snackbar>
-    <v-snackbar color="red" v-model="alertEditError" :timeout="timeout">
-      {{ textEditError }}
-      <v-btn red flat></v-btn>
-    </v-snackbar>
+    <v-snackbar color="green" v-model="alert" :timeout="timeout">{{ text }}</v-snackbar>
+    <v-snackbar color="green" v-model="alertAdd" :timeout="timeout">{{ textAdd }}</v-snackbar>
+    <v-snackbar color="red" v-model="alertAddError" :timeout="timeout">{{ textAddError }}</v-snackbar>
+    <v-snackbar color="green" v-model="alertEdit" :timeout="timeout">{{ textEdit }}</v-snackbar>
+    <v-snackbar color="red" v-model="alertEditError" :timeout="timeout">{{ textEditError }}</v-snackbar>
   </v-app>
 </template>
 
@@ -114,7 +110,7 @@ export default {
       timeout: 4000,
       text: "Project successfully saved",
       textAdd: "User successfully added",
-      textAddError: "User does not exist",
+      textAddError: "User does not exist or already added",
       textEdit: "Project successfully saved",
       textEditError: "Error saving the project",
       labelPosition: "top",
@@ -175,8 +171,8 @@ export default {
     },
     deleteProject() {
       var info = {
-            id_project: this.dataProject.dataid
-          };
+        id_project: this.dataProject.dataid
+      };
       apiService.deleteProject(info).then(result => {
         if (result.data.success) {
           this.$router.push("/newproject");
@@ -196,8 +192,7 @@ export default {
             if (result.data.success) {
               this.alertEdit = !this.alertEdit;
               this.isEditing = !this.isEditing;
-            }
-            else {
+            } else {
               this.alertEditError = !this.alertEditError;
             }
           });

@@ -19,9 +19,11 @@
                   :key="project.id_project"
                   style="margin: 3%; border-radius: 5px;"
                 >
-                  <div class="layoutContainer"></div>
+                  <div class="layoutContainer">
+                    <img src="/img/arduino_mega_clean.png" width="230px">
+                  </div>
                   <div class="layoutInfo">
-                    <h3 style="padding-bottom: 4%;">
+                    <h3 style="padding-bottom: 3%;">
                       <a
                         style="color:#373b44; text-decoration: none;"
                         :href="'/project/' + project.id_project"
@@ -55,7 +57,7 @@
                 >
                 <div class="layoutContainer"></div>
                   <div class="layoutInfo">
-                    <h3 style="padding-bottom: 4%;">
+                    <h3 style="padding-bottom: 3%;">
                       <a
                         style="color:#373b44; text-decoration: none;"
                         :href="'/group/' + group.id_group"

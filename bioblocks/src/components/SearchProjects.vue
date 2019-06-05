@@ -19,9 +19,11 @@
                   class="homeItem elevation-5"
                   v-for="project in threeProjects"
                   :key="project.id_project"
-                  style="margin: 2%;"
+                  style="margin: 3%; border-radius: 5px;"
                 >
-                  <div class="layoutContainer"></div>
+                  <div class="layoutContainer">
+                    <img src="/img/arduino_mega_clean.png" width="230px">
+                  </div>
                   <div class="layoutInfo">
                     <h3 style="padding-bottom: 4%;">
                       <a
@@ -29,7 +31,10 @@
                         :href="'/project/' + project.id_project"
                       >{{ project.name }}</a>
                     </h3>
-                    <p style="font-size:12px; color: #8c919b;">by <span style="color: rgb(103, 194, 58);">{{ project.owner }}</span></p>
+                    <p style="font-size:12px; color: #8c919b;">
+                      by
+                      <span style="color: rgb(103, 194, 58);">{{ project.owner }}</span>
+                    </p>
                   </div>
                 </div>
               </v-layout>

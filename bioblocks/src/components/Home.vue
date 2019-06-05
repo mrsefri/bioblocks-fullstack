@@ -2,7 +2,7 @@
   <div style="height: 100%;">
     <div style="height: 100%;">
       <div class="landing-page">
-        <div style="position: relative; top:15%;">
+        <div>
           <h1>A new way to program, easy, simple and intuitive</h1>
           <span
             class="landing-text-big"
@@ -106,8 +106,9 @@
         </div>
       </v-card>
     </v-dialog>
-    <v-snackbar v-model="alert" :timeout="timeout">{{ text }}</v-snackbar>
-    <v-snackbar color="#00d994" v-model="alertCreate" :timeout="timeout">{{ textCreate }}</v-snackbar>
+    <v-snackbar color="red" v-model="alert" :timeout="timeout">{{ text }}</v-snackbar>
+    <v-snackbar color="green" v-model="alertCreate" :timeout="timeout">{{ textCreate }}</v-snackbar>
+    <v-snackbar color="red" v-model="alertCreateError" :timeout="timeout">{{ textCreateError }}</v-snackbar>
   </div>
 </template>
 
@@ -173,9 +174,11 @@ export default {
       isLogin: true,
       alert: false,
       alertCreate: false,
+      alertCreateError: false,
       timeout: 4000,
       text: "Incorrect username/password",
       textCreate: "Account created",
+      textCreateError: "Username already exists",
       labelPosition: "top",
       ruleForm: {
         name: "",
@@ -253,8 +256,9 @@ export default {
           apiService.signUp(info).then(result => {
             if (result.data.success) {
               this.isLogin = !this.isLogin;
-            } else if (!this.alert) {
               this.alertCreate = !this.alertCreate;
+            } else if (!this.alertCreateError) {
+              this.alertCreateError = !this.alertCreateError;
             }
           });
         }

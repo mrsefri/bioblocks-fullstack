@@ -18,21 +18,30 @@ postRoutes.post('/signin', function (req, res, next) {
 });
 
 postRoutes.post('/signup', function (req, res, next) {
-    var salt = bcrypt.genSaltSync(10); //10 rounds to apply with the hash function module bcrypt provides. View module bcrypt docs on npm  
-    var password = bcrypt.hashSync(req.body.password, salt); //Passport encrypted 
-    //Getting the params user taps and storing in a json object 
-    var user = {
-        full_name: req.body.fullName,
-        username: req.body.username,
-        password: password,
-        email: req.body.email,
-        user_type: req.body.userType
-    };
-    /*Inserting data on the db */
-    db.query("INSERT INTO bioblocks.user SET ? , `creation_date` = current_date()", user, (err, rows, fields) => {
+    var name = req.body.fullName;
+    db.query("SELECT user.full_name FROM user WHERE user.full_name = ?", [name], function (err, rows, fields) {
         if (err) throw err;
+        if (rows.length > 0) {
+            return res.send({ success: false, message: 'register didnt succeeded' });
+        }
+        else {
+            var salt = bcrypt.genSaltSync(10); //10 rounds to apply with the hash function module bcrypt provides. View module bcrypt docs on npm  
+            var password = bcrypt.hashSync(req.body.password, salt); //Passport encrypted 
+            //Getting the params user taps and storing in a json object 
+            var user = {
+                full_name: req.body.fullName,
+                username: req.body.username,
+                password: password,
+                email: req.body.email,
+                user_type: req.body.userType
+            };
+            /*Inserting data on the db */
+            db.query("INSERT INTO bioblocks.user SET ? , `creation_date` = current_date()", user, (err, rows, fields) => {
+                if (err) throw err;
+            });
+            return res.send({ success: true, message: 'register success' });
+        }
     });
-    return res.send({ success: true, message: 'register success' });
 });
 
 postRoutes.post('/newproject', function (req, res, next) {
@@ -98,7 +107,6 @@ postRoutes.post('/newgroup', function (req, res, next) {
         if (err) throw err;
         if (rows.length > 0)
             id_group = rows[0].id_group
-
         return res.send({ success: true, message: 'group created', uri: id_group });
     });
 });
@@ -115,17 +123,20 @@ postRoutes.post('/projectToGroup', function (req, res, next) {
 postRoutes.post('/userToProject', function (req, res, next) {
     var id_project = req.body.id_project;
     var id = req.body.id_user;
-    db.query("SELECT * FROM user WHERE id_user=?", [id], function (err, rows, fields) {
-            if (err) throw err;
-            console.log(rows.length);
-            if (rows.length > 0) {
-                db.query("INSERT INTO user_belongs_project (id_user,id_project) VALUES (?,?)", [id, id_project], function (err, rows, fields) {
-                    if (err) throw err;
-                });
-                return res.send({ success: true, message: 'user added to project' })
-            }
-            return res.send({ success: false, message: 'user not added to project' })
-        });
+    db.query("SELECT id_user FROM user WHERE full_name=?", [id], function (err, rows, fields) {
+        if (err) throw err;
+        if (rows.length == 1) {
+            db.query("SELECT id_user from bioblocks.user_belongs_project where id_user = ?", [rows[0].id_user], function (err, rows, fields) {
+                if (rows.length == 0) {
+                    db.query("INSERT INTO user_belongs_project (id_user,id_project) VALUES (?,?)", [rows[0].id_user, id_project], function (err, rows, fields) {
+                        if (err) throw err;
+                        return res.send({ success: true, message: 'user added to project' });
+                    });
+                }
+            });
+        }
+        return res.send({ success: false, message: 'user not added to project' });
+    });
 });
 
 module.exports = postRoutes;
